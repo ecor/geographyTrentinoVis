@@ -10,6 +10,12 @@ NULL
 #' 
 #' @param x a \code{Raster*} class object
 #' @param map geograghical map on which \code{x} is plotted. It is an object returned by \code{\link{get_map}} or similars.
+#' @param latlon_crs string containing the utilized latitude longitude Coordinate Refarance System. See default in \code{Usage}.
+#' @param layer brick layer utilized for geographical plotting. Default is 1. 
+#' @param title string title of the graphic 
+#' @param label string title (label) of the legend. 
+#' @param high colour for low end of gradient. See \code{\link{scale_fill_gradient}}.
+#' @param low  colourf or high end of gradient. See \code{\link{scale_fill_gradient}}. 
 #' @param ... further arguments
 #' 
 #' 

@@ -15,6 +15,23 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
   It is an object returned by \code{\link{get_map}} or
   similars.}
 
+  \item{latlon_crs}{string containing the utilized latitude
+  longitude Coordinate Refarance System. See default in
+  \code{Usage}.}
+
+  \item{layer}{brick layer utilized for geographical
+  plotting. Default is 1.}
+
+  \item{title}{string title of the graphic}
+
+  \item{label}{string title (label) of the legend.}
+
+  \item{high}{colour for low end of gradient. See
+  \code{\link{scale_fill_gradient}}.}
+
+  \item{low}{colourf or high end of gradient. See
+  \code{\link{scale_fill_gradient}}.}
+
   \item{...}{further arguments}
 }
 \description{

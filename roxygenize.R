@@ -24,7 +24,37 @@ path <- "/Users/ecor/R-packages"
 pkg_name <- "geographyTrentinoVis"
 pkg_dir <- paste(path,pkg_name,sep="/")
 
+
 roxygenize(pkg_dir,roxygen.dir=pkg_dir,copy.package=FALSE,unlink.target=FALSE,overwrite=TRUE)
+
+
+## installation
+oo <- installed.packages()
+if (pkg_name %in% oo[,"Package"]) {
+	
+	
+	vv <-as.character(packageVersion(pkg_name))
+	vv1 <- as.character(packageVersion(pkg_name,lib.loc=path))
+	print(vv)
+	print(vv1)
+	if (compareVersion(vv1,vv)>=0) {
+		
+		
+		print("removing")
+		remove.packages(pkg_name)
+		install.packages(pkg_dir,type="source",repos=NULL)
+	}
+	
+	
+} else { 
+	
+	install.packages(pkg_dir,type="source",repos=NULL)
+}
+
+
+
+
+
 
 
 
