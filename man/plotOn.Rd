@@ -1,6 +1,6 @@
 \name{plotOn}
 \alias{plotOn}
-\title{Geograhical representation of a raster map.}
+\title{Geographical representation of a raster map.}
 \usage{
 plotOn(x, map = get_map(location = "trentino", zoom = 9),
   latlon_crs = as.character("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"),
@@ -18,7 +18,7 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
   \item{...}{further arguments}
 }
 \description{
-Geograhical representation of a raster map.
+Geographical representation of a raster map.
 }
 \note{
 Useful link:

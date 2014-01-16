@@ -1,6 +1,6 @@
 NULL
 #'
-#'DESCRIPTION TO DO
+#' Raster Mask of the Trentino Region 
 #' 
 #' @param dsn see \code{\link{readOGR}}
 #' @param layer see \code{\link{readOGR}}

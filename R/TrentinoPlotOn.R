@@ -6,7 +6,7 @@
 
 NULL
 #'
-#' Geograhical representation of a raster map.
+#' Geographical representation of a raster map.
 #' 
 #' @param x a \code{Raster*} class object
 #' @param map geograghical map on which \code{x} is plotted. It is an object returned by \code{\link{get_map}} or similars.

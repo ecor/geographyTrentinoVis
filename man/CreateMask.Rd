@@ -1,6 +1,6 @@
 \name{CreateMask}
 \alias{CreateMask}
-\title{DESCRIPTION TO DO}
+\title{Raster Mask of the Trentino Region}
 \usage{
 CreateMask(dsn = NULL, layer,
   url = "http://dati.trentino.it/storage/f/2013-05-09T141315/788_Comuni_amministrativi___DB_Prior_10k__12_12_2011_4uWD8r.zip",
@@ -45,7 +45,7 @@ CreateMask(dsn = NULL, layer,
   \item{...}{futher arguments for \code{\link{readOGR}}}
 }
 \description{
-DESCRIPTION TO DO
+Raster Mask of the Trentino Region
 }
 \details{
 In case of downloaded from an URL, the file is
