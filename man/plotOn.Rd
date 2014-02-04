@@ -57,6 +57,7 @@ soilwatercontent_mask <- CreateMask(raster=soilwatercontent) ## see default in U
 
 
 x <- plotOn(x=soilwatercontent_mask)
+x <- plotOn(x=soilwatercontent_mask,alpha=0.1)
 }
 \seealso{
 \code{\link{geom_point}},\code{\link{ggmap}},\code{\link{facet_wrap}}

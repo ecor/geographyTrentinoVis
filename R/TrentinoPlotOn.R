@@ -34,9 +34,9 @@ NULL
 #' data(soilwatercontent)
 #' soilwatercontent_mask <- CreateMask(raster=soilwatercontent) ## see default in Usage
 #' 
-
 #' 
 #' x <- plotOn(x=soilwatercontent_mask)
+#' x <- plotOn(x=soilwatercontent_mask,alpha=0.1)
 #' 
 #' 
 #' 
