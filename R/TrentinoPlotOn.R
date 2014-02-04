@@ -58,7 +58,7 @@ plotOn <- function(x,
 	
 	y <- projectRaster(x,crs=latlon_crs)
 	
-	##out <- y 
+	
 	
 	
 	df <- as.data.frame(y,xy=TRUE)
@@ -70,13 +70,12 @@ plotOn <- function(x,
 	names_xy <- names(df)[names(df) %in% c("lat","lon")]
 	
 	
-	
-	 isNA <- is.na(df[,!(names(df) %in% names_xy)][,1])
-	
+
+	 isNA <- is.na(as.data.frame(df[,!(names(df) %in% names_xy)])[,1])
+
 	df <- df[!isNA,]	
 	
-	### set layer 
-	
+
 	names <- names(df)
 	names(names) <- names 
 	names <- names[!(names %in% names_xy)]
