@@ -1,12 +1,12 @@
 \name{plotOn}
 \alias{plotOn}
-\title{Geographical representation of a raster map.}
+\title{Geographical representation of a data frame or raster map.}
 \usage{
 plotOn(x, map = get_map(location = "trentino", zoom = 9),
   latlon_crs = as.character("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"),
   layer = 1, legend = "bottomright", title = "Soil Water Content",
-  label = "swc", high = "blue", low = "white", alpha = c(0.1, 0.7),
-  range = NULL, ...)
+  label = "swc", high = "blue", low = "white", alpha = 0.3,
+  facet_wrap = FALSE, nrow = NULL, ncol = NULL, range = NULL, ...)
 }
 \arguments{
   \item{x}{a \code{Raster*} class object}
@@ -32,10 +32,19 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
   \item{low}{colourf or high end of gradient. See
   \code{\link{scale_fill_gradient}}.}
 
+  \item{alpha}{alpha coefficient. See
+  \url{http://en.wikipedia.org/wiki/Alpha_compositing}.}
+
+  \item{facet_wrap}{logical value. If \code{TRUE} it uses
+  \code{\link{facet_wrap}} to print all plots.}
+
+  \item{nrow,ncol}{number of rows and columns. See
+  \code{\link{facet_wrap}}.}
+
   \item{...}{further arguments}
 }
 \description{
-Geographical representation of a raster map.
+Geographical representation of a data frame or raster map.
 }
 \note{
 Useful link:
@@ -48,5 +57,8 @@ soilwatercontent_mask <- CreateMask(raster=soilwatercontent) ## see default in U
 
 
 x <- plotOn(x=soilwatercontent_mask)
+}
+\seealso{
+\code{\link{geom_point}},\code{\link{ggmap}},\code{\link{facet_wrap}}
 }
 

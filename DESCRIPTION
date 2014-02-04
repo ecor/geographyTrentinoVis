@@ -13,6 +13,6 @@ Depends:
     rgdal,
     ggplot2,
     ggmap,
-    stringr,scales
+    stringr,scales,reshape2
 Suggests:
     rgdal,raster

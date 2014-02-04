@@ -6,7 +6,7 @@
 
 NULL
 #'
-#' Geographical representation of a raster map.
+#' Geographical representation of a data frame or raster map.
 #' 
 #' @param x a \code{Raster*} class object
 #' @param map geograghical map on which \code{x} is plotted. It is an object returned by \code{\link{get_map}} or similars.
@@ -16,10 +16,14 @@ NULL
 #' @param label string title (label) of the legend. 
 #' @param high colour for low end of gradient. See \code{\link{scale_fill_gradient}}.
 #' @param low  colourf or high end of gradient. See \code{\link{scale_fill_gradient}}. 
+#' @param alpha alpha coefficient. See \url{http://en.wikipedia.org/wiki/Alpha_compositing}. 
+#' @param facet_wrap logical value. If \code{TRUE} it uses \code{\link{facet_wrap}} to print all plots. 
+#' @param nrow,ncol number of rows and columns. See \code{\link{facet_wrap}}. 
 #' @param ... further arguments
 #' 
 #' 
 #' @export 
+#' @seealso \code{\link{geom_point}},\code{\link{ggmap}},\code{\link{facet_wrap}}
 #' 
 #' @importFrom raster as.data.frame 
 # @import ggmap
@@ -50,41 +54,76 @@ plotOn <- function(x,
 		label="swc",
 		high="blue",
 		low="white",
-		alpha=c(0.1,0.7),
+		alpha=0.3,
+		facet_wrap=FALSE,
+		nrow=NULL,
+		ncol=NULL,
 		range=NULL,...) 
 {
 	
 	out <- NULL 
 	
-	y <- projectRaster(x,crs=latlon_crs)
+	if (length(layer)>1) facet_wrap <- TRUE
+	
+	condRaster <- (class(x) %in% c("RasterBrick","RasterStack","RasterLayer"))
+	conddf <- (is.data.frame(x))
+	if (conddf) {
+		
+		conddflatlon <- (c("lat") %in% names(df)) & (c("lon") %in% names(df))
+		
+	}
 	
 	
+	if (condRaster) {
+		y <- projectRaster(x,crs=latlon_crs)
 	
+		df <- as.data.frame(y,xy=TRUE)
 	
-	df <- as.data.frame(y,xy=TRUE)
+		names(df)[names(df)=="x"] <- "lon"
+		names(df)[names(df)=="y"] <- "lat"
+	
+		names_xy <- names(df)[names(df) %in% c("lat","lon")]
+	} else if (condflatlon){ 
+	
+		df <- x 
+		
+	} else { 
+	
+		stop("x has incorrect type!")
+	}
 	
 
-	names(df)[names(df)=="x"] <- "lon"
-	names(df)[names(df)=="y"] <- "lat"
-	
-	names_xy <- names(df)[names(df) %in% c("lat","lon")]
-	
-	
-
-	 isNA <- is.na(as.data.frame(df[,!(names(df) %in% names_xy)])[,1])
+	isNA <- is.na(as.data.frame(df[,!(names(df) %in% names_xy)])[,1])
 
 	df <- df[!isNA,]	
 	
-
+	
 	names <- names(df)
 	names(names) <- names 
 	names <- names[!(names %in% names_xy)]
 	layer <- names[layer]
-	
+#	str(df)
+#	print("xx")
 	####
 	
+
 	df <- df[,c(names_xy,layer)]
-	names(df) <- c(names_xy,label)
+	if (facet_wrap) {
+		
+		
+		df <- melt(df,id.vars=names_xy)
+		df <- df[,c(1,2,4,3)]
+		names(df)[3] <- label 
+
+		
+	} else {
+		
+		
+		names(df) <- c(names_xy,label)
+		
+		
+		
+	}
 	
 	
 	####
@@ -92,8 +131,9 @@ plotOn <- function(x,
 	###aes <- aes(x=df$lon,y=df$lat,colour=df[,3],fill=df[,3],...)
 	p <- ggmap(map,legend=legend)
 	if (!is.null(range)) range <- range(df[,label])
-	p <- ggmap(map,extent="normal")+geom_point(data=df,mapping=aes,alpha=0.4)+scale_fill_gradient(low=low,high=high,limits=range)+scale_color_gradient(low=low,high=high,limits=range)
+	p <- ggmap(map,extent="normal")+geom_point(data=df,mapping=aes,alpha=alpha,shape=15)+scale_fill_gradient(low=low,high=high,limits=range)+scale_color_gradient(low=low,high=high,limits=range)
 	if ((!is.null(title)) | (!is.na(title))) p <- p+ggtitle(title)
+	if (facet_wrap) p <- p+facet_wrap(~ variable,nrow=nrow,ncol=ncol)
 	##		scale_alpha(range=range(alpha))
 	
 	## check alpha before XXX
