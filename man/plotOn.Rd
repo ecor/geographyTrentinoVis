@@ -6,7 +6,8 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
   latlon_crs = as.character("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"),
   layer = 1, legend = "bottomright", title = "Soil Water Content",
   label = "swc", high = "blue", low = "white", alpha = 0.3,
-  facet_wrap = FALSE, nrow = NULL, ncol = NULL, range = NULL, ...)
+  facet_wrap = FALSE, nrow = NULL, ncol = NULL, range = NULL,
+  scale.fill.gradient = TRUE, scale = NULL, ...)
 }
 \arguments{
   \item{x}{a \code{Raster*} class object}
@@ -40,6 +41,16 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
 
   \item{nrow,ncol}{number of rows and columns. See
   \code{\link{facet_wrap}}.}
+
+  \item{scale.fill.gradient}{logical value. If it is
+  \code{TRUE} (Default), it uses
+  \code{\link{scale.fill.gradient}}}
+
+  \item{scale}{alternative parameter to
+  \code{scale.fill.gradient}, it is a term potentially
+  added for color scale (see \code{\link{scale_colour_hue}}
+  o similars). It is used only if it is not \code{NULL} or
+  \code{scale.fill.gradient} is \code{FALSE}}
 
   \item{...}{further arguments}
 }

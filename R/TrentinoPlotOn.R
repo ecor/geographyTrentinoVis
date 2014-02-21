@@ -19,6 +19,8 @@ NULL
 #' @param alpha alpha coefficient. See \url{http://en.wikipedia.org/wiki/Alpha_compositing}. 
 #' @param facet_wrap logical value. If \code{TRUE} it uses \code{\link{facet_wrap}} to print all plots. 
 #' @param nrow,ncol number of rows and columns. See \code{\link{facet_wrap}}. 
+#' @param scale.fill.gradient logical value. If it is \code{TRUE} (Default), it uses \code{\link{scale.fill.gradient}}
+#' @param scale alternative parameter to \code{scale.fill.gradient}, it is a term potentially added for color scale (see \code{\link{scale_colour_hue}} o similars). It is used only if it is not \code{NULL} or \code{scale.fill.gradient} is \code{FALSE}
 #' @param ... further arguments
 #' 
 #' 
@@ -58,7 +60,8 @@ plotOn <- function(x,
 		facet_wrap=FALSE,
 		nrow=NULL,
 		ncol=NULL,
-		range=NULL,...) 
+		range=NULL,
+		scale.fill.gradient=TRUE,scale=NULL,...) 
 {
 	
 	out <- NULL 
@@ -69,7 +72,7 @@ plotOn <- function(x,
 	conddf <- (is.data.frame(x))
 	if (conddf) {
 		
-		conddflatlon <- (c("lat") %in% names(df)) & (c("lon") %in% names(df))
+		conddflatlon <- (c("lat") %in% names(x)) & (c("lon") %in% names(x))
 		
 	}
 	
@@ -83,10 +86,10 @@ plotOn <- function(x,
 		names(df)[names(df)=="y"] <- "lat"
 	
 		names_xy <- names(df)[names(df) %in% c("lat","lon")]
-	} else if (condflatlon){ 
+	} else if (conddflatlon){ 
 	
 		df <- x 
-		
+		names_xy <- names(df)[names(df) %in% c("lat","lon")]
 	} else { 
 	
 		stop("x has incorrect type!")
@@ -131,7 +134,14 @@ plotOn <- function(x,
 	###aes <- aes(x=df$lon,y=df$lat,colour=df[,3],fill=df[,3],...)
 	p <- ggmap(map,legend=legend)
 	if (!is.null(range)) range <- range(df[,label])
-	p <- ggmap(map,extent="normal")+geom_point(data=df,mapping=aes,alpha=alpha,shape=15)+scale_fill_gradient(low=low,high=high,limits=range)+scale_color_gradient(low=low,high=high,limits=range)
+	p <- ggmap(map,extent="normal")+geom_point(data=df,mapping=aes,alpha=alpha,shape=15)
+	if (scale.fill.gradient) {
+		p<- p+scale_fill_gradient(low=low,high=high,limits=range)+scale_color_gradient(low=low,high=high,limits=range)
+	} else if (!is.null(scale)) {
+	
+		p <- p+scale
+		
+	}
 	if ((!is.null(title)) | (!is.na(title))) p <- p+ggtitle(title)
 	if (facet_wrap) p <- p+facet_wrap(~ variable,nrow=nrow,ncol=ncol)
 	##		scale_alpha(range=range(alpha))
