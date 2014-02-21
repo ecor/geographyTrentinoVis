@@ -128,7 +128,7 @@ plotOn <- function(x,
 		
 	}
 	
-	str(df)
+	
 	####
 #	aes <- aes_string(x="lon",y="lat",colour=names(df)[3],fill=names(df)[3],...) ## ... further arguments for aes_string
 	aes <- aes(x=lon,y=lat,colour=label,fill=label,...)
@@ -136,12 +136,13 @@ plotOn <- function(x,
 	p <- ggmap(map,legend=legend)
 	if (!is.null(range)) range <- range(df[,label])
 	p <- ggmap(map,extent="normal")+geom_point(data=df,mapping=aes,alpha=alpha,shape=15)
-	if (scale.fill.gradient) {
-		print(label)
+	if (scale.fill.gradient | is.null(scale)) {
+		
 		p<- p+scale_fill_gradient(name=label,low=low,high=high,limits=range)+scale_color_gradient(name=label,low=low,high=high,limits=range) ## scale_name=label
 	} else if (!is.null(scale)) {
 		
-		p <- p+scale
+		for (it in scale) p <- p+it
+		
 		
 	}
 	if ((!is.null(title)) | (!is.na(title))) p <- p+ggtitle(title)

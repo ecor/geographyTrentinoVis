@@ -85,6 +85,6 @@ fill[type=="T"] <- "red"
 fill[type=="P"] <- "blue"
 fill[type=="A"] <- "green"
 
-scale <- scale_colour_manual(values=fill)   ##ll_discrete(values=fill) ##+scale_colour_manual(breaks=type,values=fill)
+scale <- list(scale_colour_manual(breaks=type,values=fill),scale_fill_manual(labels=type,values=fill))  ##ll_discrete(values=fill) ##+scale_colour_manual(breaks=type,values=fill)
 p <- plotOn(x=station_latlon_df,map=map,title="Weather Stations",scale.fill.gradient=FALSE,layer="obs",alpha=1,label="type",scale=scale)
-p <- p+scale
+
