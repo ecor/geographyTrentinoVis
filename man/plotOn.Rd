@@ -25,7 +25,10 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
 
   \item{title}{string title of the graphic}
 
-  \item{label}{string title (label) of the legend.}
+  \item{label}{string title (label) of the legend. It is
+  used as the name of the scale if
+  \code{scale.fill.gradient} is \code{TRUE}, otherwise it
+  is ignored.}
 
   \item{high}{colour for low end of gradient. See
   \code{\link{scale_fill_gradient}}.}

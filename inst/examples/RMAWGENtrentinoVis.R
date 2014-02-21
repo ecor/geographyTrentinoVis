@@ -7,7 +7,7 @@
 
 library(RMAWGEN)
 library(geographyTrentinoVis)
-
+source('~/R-packages/geographyTrentinoVis/R/TrentinoPlotOn.R', chdir = TRUE)
 data(trentino)
 ####
 
@@ -76,7 +76,7 @@ station_latlon_df$obs[condA] <- "A"
 
 
 
-map <- get_map(location = "trentino", zoom = 9)
+map <- get_map(location = "trentino", maptype="satellite",zoom = 9)
 
 type <- unique(station_latlon_df$obs)
 fill <- type
@@ -85,6 +85,6 @@ fill[type=="T"] <- "red"
 fill[type=="P"] <- "blue"
 fill[type=="A"] <- "green"
 
-scale <- NULL ##scale_fill_manual(values=fill) ##+scale_colour_manual(breaks=type,values=fill)
-plotOn(x=station_latlon_df,map=map,title="Weather Stations",scale.fill.gradient=FALSE,layer="obs",alpha=1,label="type",scale=scale)
-
+scale <- scale_colour_manual(values=fill)   ##ll_discrete(values=fill) ##+scale_colour_manual(breaks=type,values=fill)
+p <- plotOn(x=station_latlon_df,map=map,title="Weather Stations",scale.fill.gradient=FALSE,layer="obs",alpha=1,label="type",scale=scale)
+p <- p+scale

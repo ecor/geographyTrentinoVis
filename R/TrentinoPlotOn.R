@@ -13,7 +13,7 @@ NULL
 #' @param latlon_crs string containing the utilized latitude longitude Coordinate Refarance System. See default in \code{Usage}.
 #' @param layer brick layer utilized for geographical plotting. Default is 1. 
 #' @param title string title of the graphic 
-#' @param label string title (label) of the legend. 
+#' @param label string title (label) of the legend. It is used as the name of the scale if \code{scale.fill.gradient} is \code{TRUE}, otherwise it is ignored.
 #' @param high colour for low end of gradient. See \code{\link{scale_fill_gradient}}.
 #' @param low  colourf or high end of gradient. See \code{\link{scale_fill_gradient}}. 
 #' @param alpha alpha coefficient. See \url{http://en.wikipedia.org/wiki/Alpha_compositing}. 
@@ -116,29 +116,31 @@ plotOn <- function(x,
 		
 		df <- melt(df,id.vars=names_xy)
 		df <- df[,c(1,2,4,3)]
-		names(df)[3] <- label 
+		names(df)[3] <- "label" ## DA LAVORARCI
 
 		
 	} else {
 		
 		
-		names(df) <- c(names_xy,label)
+		names(df) <- c(names_xy,"label")
 		
 		
 		
 	}
 	
-	
+	str(df)
 	####
-	aes <- aes_string(x="lon",y="lat",colour=names(df)[3],fill=names(df)[3],...) ## ... further arguments for aes_string
+#	aes <- aes_string(x="lon",y="lat",colour=names(df)[3],fill=names(df)[3],...) ## ... further arguments for aes_string
+	aes <- aes(x=lon,y=lat,colour=label,fill=label,...)
 	###aes <- aes(x=df$lon,y=df$lat,colour=df[,3],fill=df[,3],...)
 	p <- ggmap(map,legend=legend)
 	if (!is.null(range)) range <- range(df[,label])
 	p <- ggmap(map,extent="normal")+geom_point(data=df,mapping=aes,alpha=alpha,shape=15)
 	if (scale.fill.gradient) {
-		p<- p+scale_fill_gradient(low=low,high=high,limits=range)+scale_color_gradient(low=low,high=high,limits=range)
+		print(label)
+		p<- p+scale_fill_gradient(name=label,low=low,high=high,limits=range)+scale_color_gradient(name=label,low=low,high=high,limits=range) ## scale_name=label
 	} else if (!is.null(scale)) {
-	
+		
 		p <- p+scale
 		
 	}
