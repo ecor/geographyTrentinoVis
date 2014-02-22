@@ -21,9 +21,10 @@ NULL
 #' @param nrow,ncol number of rows and columns. See \code{\link{facet_wrap}}. 
 #' @param scale.fill.gradient logical value. If it is \code{TRUE} (Default), it uses \code{\link{scale.fill.gradient}}
 #' @param scale alternative parameter to \code{scale.fill.gradient}, it is a term potentially added for color scale (see \code{\link{scale_colour_hue}} o similars). It is used only if it is not \code{NULL} or \code{scale.fill.gradient} is \code{FALSE}
+#' @param plot logical value. If \code{TRUE} (Default) the function also plots the map, otherwise returns its value without any preliminary plot.
 #' @param ... further arguments
 #' 
-#' 
+#' @return A \class{"ggplot"} object.
 #' @export 
 #' @seealso \code{\link{geom_point}},\code{\link{ggmap}},\code{\link{facet_wrap}}
 #' 
@@ -61,7 +62,7 @@ plotOn <- function(x,
 		nrow=NULL,
 		ncol=NULL,
 		range=NULL,
-		scale.fill.gradient=TRUE,scale=NULL,...) 
+		scale.fill.gradient=TRUE,scale=NULL,plot=TRUE,...) 
 {
 	
 	out <- NULL 
@@ -151,8 +152,9 @@ plotOn <- function(x,
 	
 	## check alpha before XXX
 	
-	
-	print(p)
+##	p <- p+geom_text(mapping=aes(x=lon,y=lat,label=id,color=obs),data=x,size = 3, vjust = 0, hjust = -0.5)
+##	if (print.p)
+	if (plot) print(p)
 	
 	
 	return(p)

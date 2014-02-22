@@ -7,7 +7,7 @@
 
 library(RMAWGEN)
 library(geographyTrentinoVis)
-source('~/R-packages/geographyTrentinoVis/R/TrentinoPlotOn.R', chdir = TRUE)
+###source('~/R-packages/geographyTrentinoVis/R/TrentinoPlotOn.R', chdir = TRUE)
 data(trentino)
 ####
 
@@ -74,17 +74,34 @@ station_latlon_df$obs[condA] <- "A"
 
 ## PUT ON THE TRENTINO MAP 
 
+## Reduce the data frame 
 
-
-map <- get_map(location = "trentino", maptype="satellite",zoom = 9)
-
+station_latlon_df <- station_latlon_df[station_latlon_df$obs!="N",]
+## FROM ?get_map
+maptype = c("terrain", "satellite", "roadmap", "hybrid", "toner", "watercolor")
+map <- get_map(location = "trentino", maptype=maptype[2],zoom = 9)
+"hybrid"
 type <- unique(station_latlon_df$obs)
 fill <- type
+
+###rainbow(10)
 fill[type=="N"] <- "black"
 fill[type=="T"] <- "red"
-fill[type=="P"] <- "blue"
+fill[type=="P"] <- "magenta"
 fill[type=="A"] <- "green"
+names(fill) <- type
+name_scale <- ""
 
-scale <- list(scale_colour_manual(breaks=type,values=fill),scale_fill_manual(labels=type,values=fill))  ##ll_discrete(values=fill) ##+scale_colour_manual(breaks=type,values=fill)
-p <- plotOn(x=station_latlon_df,map=map,title="Weather Stations",scale.fill.gradient=FALSE,layer="obs",alpha=1,label="type",scale=scale)
+## http://stackoverflow.com/questions/9500066/how-to-label-points-on-a-scatterplot-with-r
+scale <- list(scale_colour_manual(name=name_scale,breaks=type,values=fill),scale_fill_manual(name=name_scale,labels=type,values=fill))  ##ll_discrete(values=fill) ##+scale_colour_manual(breaks=type,values=fill)
+p <- plotOn(x=station_latlon_df,map=map,title="Weather Stations 1961-1990",scale.fill.gradient=FALSE,layer="obs",alpha=1,label="type",scale=scale,plot=FALSE)
+p <- p+geom_text(mapping=aes(x=lon,y=lat,label=id,color=obs),data=station_latlon_df,size = 3, vjust = 0, hjust = -0.1)
+
+p <- p+xlab("lon [deg E]")+ylab("lat [deg N]")
+
+### Finally print the plot in a file 
+
+file <- "/Users/ecor/R-packages/geographyTrentinoVis/inst/examples/RMAWGENstations.png"
+ggsave(filename=file,plot=p)
+
 

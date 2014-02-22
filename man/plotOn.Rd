@@ -7,7 +7,7 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
   layer = 1, legend = "bottomright", title = "Soil Water Content",
   label = "swc", high = "blue", low = "white", alpha = 0.3,
   facet_wrap = FALSE, nrow = NULL, ncol = NULL, range = NULL,
-  scale.fill.gradient = TRUE, scale = NULL, ...)
+  scale.fill.gradient = TRUE, scale = NULL, plot = TRUE, ...)
 }
 \arguments{
   \item{x}{a \code{Raster*} class object}
@@ -55,7 +55,14 @@ plotOn(x, map = get_map(location = "trentino", zoom = 9),
   o similars). It is used only if it is not \code{NULL} or
   \code{scale.fill.gradient} is \code{FALSE}}
 
+  \item{plot}{logical value. If \code{TRUE} (Default) the
+  function also plots the map, otherwise returns its value
+  without any preliminary plot.}
+
   \item{...}{further arguments}
+}
+\value{
+A \class{"ggplot"} object.
 }
 \description{
 Geographical representation of a data frame or raster map.
